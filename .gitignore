@@ -1,0 +1,25 @@
+# Виртуальное окружение
+venv/
+
+# Файлы Python
+*.pyc
+__pycache__/
+
+# База данных
+db.sqlite3
+
+# Статические файлы
+/staticfiles/
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Настройки IDE
+.idea/
+.vscode/
+
+**/.DS_Store
+.DS_Store
