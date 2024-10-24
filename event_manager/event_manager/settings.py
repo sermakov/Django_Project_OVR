@@ -11,14 +11,21 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 import environ
 
+# Инициализируем объект Env
 env = environ.Env(
-    DEBUG=(bool, False)
+    DEBUG=(bool, False)  # Указываем тип переменной DEBUG и значение по умолчанию
 )
 
-environ.Env.read_env()
+# Определяем путь к корневой директории проекта
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Читаем переменные из .env файла
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+# Применяем переменные из .env
 DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 
