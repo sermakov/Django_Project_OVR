@@ -1,13 +1,14 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Главная страница</title>
-    <link rel="stylesheet" href="{% static 'events/css/styles.css' %}">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'events/css/styles.css' %}">
 </head>
 <body>
-    <h1>Добро пожаловать в систему управления мероприятиями!</h1>
-    <p>Скоро здесь вы сможете создавать мероприятия и регистрироваться на них.<p>
+    <h1>Добро пожаловать на сайт мероприятий!</h1>
+    <nav>
+        <a href="{% url 'events:event_list' %}">Список мероприятий</a>
+    </nav>
 </body>
 </html>
