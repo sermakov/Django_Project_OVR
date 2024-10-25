@@ -36,13 +36,17 @@ def services(request):
     ]
     return render(request, 'events/services.html', {'services': services_list})
 
-def team(request):
-    team_members = [
+team_members = [
         {'name': 'Иван Иванов', 'position': 'Директор'},
         {'name': 'Петр Петров', 'position': 'Менеджер проектов'},
         {'name': 'Светлана Смирнова', 'position': 'Координатор мероприятий'},
     ]
+
+def team(request):
     return render(request, 'events/team.html', {'team': team_members})
+
+def about(request):
+    return render(request, 'events/about.html', {'team': team_members})
 
 def gallery(request):
     return render(request, 'events/gallery.html')
