@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import TemplateView
 
 def home(request):
     return render(request, 'events/home.html')
@@ -16,3 +17,15 @@ def delete_event(request, event_id):
         # Пока не реализовано удаление, просто перенаправляем на список
         return redirect('events:event_list')
     return render(request, 'events/delete_event.html', {'event_id': event_id})
+
+def services(request):
+    return render(request, 'events/services.html')
+
+def team(request):
+    return render(request, 'events/team.html')
+
+def contact_us(request):
+    return render(request, 'events/contact_us.html')
+
+class GalleryView(TemplateView):
+    template_name = 'events/gallery.html'
