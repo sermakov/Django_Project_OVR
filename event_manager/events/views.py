@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import TemplateView
 
 def home(request):
     return render(request, 'events/home.html')
