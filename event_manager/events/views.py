@@ -24,5 +24,8 @@ def services(request):
 def team(request):
     return render(request, 'events/team.html')
 
+def contact_us(request):
+    return render(request, 'events/contact_us.html')
+
 class GalleryView(TemplateView):
     template_name = 'events/gallery.html'
