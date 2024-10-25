@@ -22,3 +22,6 @@ def services(request):
 
 def team(request):
     return render(request, 'events/team.html')
+
+class GalleryView(TemplateView):
+    template_name = 'events/gallery.html'
