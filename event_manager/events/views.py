@@ -2,7 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
 
 def home(request):
-    return render(request, 'events/home.html')
+    events = [
+        {'id': 1, 'title': 'Концерт классической музыки', 'date': '12.01.2025 19:00'},
+        {'id': 2, 'title': 'Выставка современного искусства', 'date': '02.02.2025 10:00'},
+        {'id': 3, 'title': 'Театральная постановка', 'date': '08.03.2025 18:30'},
+    ]
+    return render(request, 'events/home.html', {'events': events})
 
 def event_list(request):
     # В будущем здесь будет вывод списка мероприятий
