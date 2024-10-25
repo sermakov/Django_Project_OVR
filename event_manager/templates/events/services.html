@@ -1,14 +1,14 @@
-<!-- templates/events/services.html -->
+<!-- events/templates/events/services.html -->
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Услуги</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'events/css/styles.css' %}">
-</head>
-<body>
+{% extends 'events/base.html' %}
+
+{% block title %}Услуги{% endblock %}
+
+{% block content %}
     <h1>Наши услуги</h1>
-    <p>Описание предоставляемых услуг.</p>
-</body>
-</html>
+    <ul>
+        {% for service in services %}
+            <li>{{ service }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
