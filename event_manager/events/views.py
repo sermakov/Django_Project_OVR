@@ -16,3 +16,9 @@ def delete_event(request, event_id):
         # Пока не реализовано удаление, просто перенаправляем на список
         return redirect('events:event_list')
     return render(request, 'events/delete_event.html', {'event_id': event_id})
+
+def services(request):
+    return render(request, 'events/services.html')
+
+def team(request):
+    return render(request, 'events/team.html')
