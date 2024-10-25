@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
 
-def home(request):
-    events = [
-        {'id': 1, 'title': 'Концерт классической музыки', 'date': '12.01.2025 19:00'},
-        {'id': 2, 'title': 'Выставка современного искусства', 'date': '02.02.2025 10:00'},
-        {'id': 3, 'title': 'Театральная постановка', 'date': '08.03.2025 18:30'},
+events = [
+        {'id': 1, 'title': 'Концерт классической музыки', 'date': '12.01.2025 19:00', 'description': 'Концерт с участием известных исполнителей.', 'location': 'Концертный зал', 'organizer': 'Иван Иванов'},
+        {'id': 2, 'title': 'Выставка современного искусства', 'date': '02.02.2025 10:00', 'description': 'Выставка работ современных художников.', 'location': 'Галерея искусств', 'organizer': 'Петр Петров'},
+        {'id': 3, 'title': 'Театральная постановка', 'date': '08.03.2025 18:30', 'description': 'Постановка классического произведения.', 'location': 'Драматический театр', 'organizer': 'Светлана Смирнова'},
     ]
+
+def home(request):
     return render(request, 'events/home.html', {'events': events})
 
 def event_list(request):
@@ -14,11 +15,6 @@ def event_list(request):
     return render(request, 'events/event_list.html')
 
 def event_detail(request, event_id):
-    events = [
-        {'id': 1, 'title': 'Концерт классической музыки', 'date': '2023-11-10 19:00', 'description': 'Концерт с участием известных исполнителей.', 'location': 'Концертный зал', 'organizer': 'Иван Иванов'},
-        {'id': 2, 'title': 'Выставка современного искусства', 'date': '2023-11-15 10:00', 'description': 'Выставка работ современных художников.', 'location': 'Галерея искусств', 'organizer': 'Петр Петров'},
-        {'id': 3, 'title': 'Театральная постановка', 'date': '2023-11-20 18:30', 'description': 'Постановка классического произведения.', 'location': 'Драматический театр', 'organizer': 'Светлана Смирнова'},
-    ]
     event = next((item for item in events if item['id'] == event_id), None)
     if event:
         return render(request, 'events/event_detail.html', {'event': event})
