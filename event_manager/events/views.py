@@ -19,10 +19,24 @@ def delete_event(request, event_id):
     return render(request, 'events/delete_event.html', {'event_id': event_id})
 
 def services(request):
-    return render(request, 'events/services.html')
+    services_list = [
+        'Организация мероприятий',
+        'Аренда оборудования',
+        'Кейтеринг',
+        'Развлекательные программы',
+    ]
+    return render(request, 'events/services.html', {'services': services_list})
 
 def team(request):
-    return render(request, 'events/team.html')
+    team_members = [
+        {'name': 'Иван Иванов', 'position': 'Директор'},
+        {'name': 'Петр Петров', 'position': 'Менеджер проектов'},
+        {'name': 'Светлана Смирнова', 'position': 'Координатор мероприятий'},
+    ]
+    return render(request, 'events/team.html', {'team': team_members})
+
+def gallery(request):
+    return render(request, 'events/gallery.html')
 
 def contact_us(request):
     return render(request, 'events/contact_us.html')
