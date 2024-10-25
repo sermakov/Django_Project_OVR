@@ -6,22 +6,8 @@
 
 {% block content %}
     <h1>{{ event.title }}</h1>
-    <p><strong>Дата и время:</strong> {{ event.date|date:"d.m.Y H:i" }}</p>
+    <p><strong>Дата и время:</strong> {{ event.date }}</p>
     <p><strong>Место проведения:</strong> {{ event.location }}</p>
     <p><strong>Описание:</strong> {{ event.description }}</p>
-    <p><strong>Категория:</strong> {{ event.category.name }}</p>
-    <p><strong>Организатор:</strong> {{ event.organizer.username }}</p>
-
-    <!-- Отображение отзывов -->
-    <h2>Отзывы</h2>
-    <ul>
-        {% for review in event.reviews.all %}
-            <li>
-                <strong>{{ review.user.username }}:</strong> {{ review.content }}
-                (Оценка: {{ review.rating }})
-            </li>
-        {% empty %}
-            <li>Пока нет отзывов.</li>
-        {% endfor %}
-    </ul>
+    <p><strong>Организатор:</strong> {{ event.organizer }}</p>
 {% endblock %}
