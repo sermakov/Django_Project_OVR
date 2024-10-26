@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
 from .forms import EventForm
+from .models import Event
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -20,16 +21,12 @@ def event_list(request):
     return render(request, 'events/event_list.html')
 
 def event_detail(request, event_id):
-    # Статические данные, так как модели не используются
-    event = next((item for item in events if item['id'] == event_id), None)
-    if event:
-        comments = event.get('comments', [])
-        return render(request, 'events/event_detail.html', {
-            'event': event,
-            'comments': comments
-        })
-    else:
-        return render(request, 'events/event_not_found.html')
+    event = get_object_or_404(Event, id=event_id)
+    comments = event.comments.all().order_by('-created_at')
+    return render(request, 'events/event_detail.html', {
+        'event': event,
+        'comments': comments
+    })
 
 def delete_event(request, event_id):
     if request.method == 'POST':
