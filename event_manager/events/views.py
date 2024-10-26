@@ -2,9 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
 
 events = [
-        {'id': 1, 'title': 'Концерт классической музыки', 'date': '2023-11-10 19:00', 'description': 'Концерт с участием известных исполнителей.', 'location': 'Концертный зал', 'organizer': 'Иван Иванов', 'category': 'Музыка', 'comments': [
-            {'user': 'Пользователь1', 'comment': 'Потрясающее мероприятие!', 'created_at': '2023-11-11 10:00'},
-            {'user': 'Пользователь2', 'comment': 'Очень понравилось!', 'created_at': '2023-11-12 12:00'},
+        {'id': 1, 'title': 'Концерт классической музыки', 'date': '12.01.2025 19:00', 'description': 'Концерт с участием известных исполнителей.', 'location': 'Концертный зал', 'organizer': 'Иван Иванов', 'category': 'Музыка', 'comments': [
+            {'user': 'Пользователь1', 'comment': 'Потрясающее мероприятие!', 'created_at': '13.01.2025 10:00'},
+            {'user': 'Пользователь2', 'comment': 'Очень понравилось!', 'created_at': '14.01.2025 12:00'},
         ]},
         # Добавьте другие мероприятия, если необходимо
     ]
