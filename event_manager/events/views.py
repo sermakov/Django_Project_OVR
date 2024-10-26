@@ -1,5 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
+from .forms import EventForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 events = [
         {'id': 1, 'title': 'Концерт классической музыки', 'date': '12.01.2025 19:00', 'description': 'Концерт с участием известных исполнителей.', 'location': 'Концертный зал', 'organizer': 'Иван Иванов', 'category': 'Музыка', 'comments': [
@@ -63,3 +66,15 @@ def contact_us(request):
 
 class GalleryView(TemplateView):
     template_name = 'events/gallery.html'
+
+@login_required
+def add_event(request):
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            event = form.save()
+            messages.success(request, 'Мероприятие успешно добавлено.')
+            return redirect('events:event_detail', event_id=event.id)
+    else:
+        form = EventForm()
+    return render(request, 'events/add_event.html', {'form': form})
