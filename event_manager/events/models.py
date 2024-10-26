@@ -66,3 +66,16 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+print("Модели успешно созданы")
+
+class Sponsor(models.Model):
+    name = models.CharField(max_length=200)
+    logo = models.ImageField(upload_to='sponsors/', blank=True, null=True)
+    website = models.URLField(blank=True)
+    events = models.ManyToManyField(Event, related_name='sponsors', blank=True)
+
+    def __str__(self):
+        return self.name
+    
+print("Модель Sponsor успешно создана")
