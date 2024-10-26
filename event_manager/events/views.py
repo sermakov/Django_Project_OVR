@@ -66,7 +66,7 @@ def contact_us(request):
 class GalleryView(TemplateView):
     template_name = 'events/gallery.html'
 
-@login_required
+#@login_required
 def add_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
@@ -78,7 +78,7 @@ def add_event(request):
         form = EventForm()
     return render(request, 'events/add_event.html', {'form': form})
 
-@login_required
+#@login_required
 def edit_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     if request.method == 'POST':
