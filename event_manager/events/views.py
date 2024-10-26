@@ -4,6 +4,8 @@ from .forms import EventForm
 from .models import Event
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.generic import DeleteView
+from django.urls import reverse_lazy
 
 events = [
         {'id': 1, 'title': 'Концерт классической музыки', 'date': '12.01.2025 19:00', 'description': 'Концерт с участием известных исполнителей.', 'location': 'Концертный зал', 'organizer': 'Иван Иванов', 'category': 'Музыка', 'comments': [
@@ -75,3 +77,26 @@ def add_event(request):
     else:
         form = EventForm()
     return render(request, 'events/add_event.html', {'form': form})
+
+@login_required
+def edit_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Мероприятие успешно обновлено.')
+            return redirect('events:event_detail', event_id=event.id)
+    else:
+        form = EventForm(instance=event)
+    return render(request, 'events/edit_event.html', {'form': form, 'event': event})
+
+class EventDeleteView(DeleteView):
+    model = Event
+    template_name = 'events/delete_event.html'
+    success_url = reverse_lazy('events:event_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        return super().dispatch(request, *args, **kwargs)
