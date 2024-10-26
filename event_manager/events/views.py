@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView
 
 events = [
-        {'id': 1, 'title': 'Концерт классической музыки', 'date': '12.01.2025 19:00', 'description': 'Концерт с участием известных исполнителей.', 'location': 'Концертный зал', 'organizer': 'Иван Иванов'},
-        {'id': 2, 'title': 'Выставка современного искусства', 'date': '02.02.2025 10:00', 'description': 'Выставка работ современных художников.', 'location': 'Галерея искусств', 'organizer': 'Петр Петров'},
-        {'id': 3, 'title': 'Театральная постановка', 'date': '08.03.2025 18:30', 'description': 'Постановка классического произведения.', 'location': 'Драматический театр', 'organizer': 'Светлана Смирнова'},
+        {'id': 1, 'title': 'Концерт классической музыки', 'date': '12.01.2025 19:00', 'description': 'Концерт с участием известных исполнителей.', 'location': 'Концертный зал', 'organizer': 'Иван Иванов', 'category': 'Музыка', 'comments': [
+            {'user': 'Пользователь1', 'comment': 'Потрясающее мероприятие!', 'created_at': '13.01.2025 10:00'},
+            {'user': 'Пользователь2', 'comment': 'Очень понравилось!', 'created_at': '14.01.2025 12:00'},
+        ]},
+        # Добавьте другие мероприятия, если необходимо
     ]
 
 def home(request):
@@ -15,9 +17,14 @@ def event_list(request):
     return render(request, 'events/event_list.html')
 
 def event_detail(request, event_id):
+    # Статические данные, так как модели не используются
     event = next((item for item in events if item['id'] == event_id), None)
     if event:
-        return render(request, 'events/event_detail.html', {'event': event})
+        comments = event.get('comments', [])
+        return render(request, 'events/event_detail.html', {
+            'event': event,
+            'comments': comments
+        })
     else:
         return render(request, 'events/event_not_found.html')
 
