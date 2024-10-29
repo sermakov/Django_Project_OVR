@@ -83,3 +83,11 @@ li {
 .gallery-item p {
     text-align: center;
 }
+
+.errorlist {
+    color: red;
+    list-style-type: none;
+}
+.errorlist li {
+    margin-left: 0;
+}
