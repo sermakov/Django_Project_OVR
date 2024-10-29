@@ -1,6 +1,15 @@
 from django import forms
 from .models import Event
 from .models import Review
+import re
+from django.core.exceptions import ValidationError
+
+PROFANITY_WORDS = ['badword1', 'badword2', 'badword3']
+
+def validate_no_profanity(value):
+    for bad_word in PROFANITY_WORDS:
+        if re.search(r'\b' + re.escape(bad_word) + r'\b', value, re.IGNORECASE):
+            raise ValidationError('Ваш комментарий содержит недопустимые слова.')
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -19,6 +28,13 @@ class ReviewForm(forms.ModelForm):
         widgets = {
             'rating': forms.Select(choices=[(i, i) for i in range(1, 6)]),
         }
+
+    comment = forms.CharField(
+        widget=forms.Textarea,
+        validators=[validate_no_profanity],
+        max_length=500,
+        label='Комментарий'
+    )
 
     def __init__(self, *args, **kwargs):
         self.event = kwargs.pop('event', None)
