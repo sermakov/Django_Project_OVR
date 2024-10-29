@@ -30,6 +30,7 @@
         <p>Нет отзывов о данном мероприятии.</p>
     {% endif %}
 
+    {% if user.is_authenticated %}
     <!-- Форма добавления отзыва -->
     <h2>Оставить отзыв</h2>
     <form method="post">
@@ -57,8 +58,12 @@
         </div>
         <button type="submit">Отправить</button>
     </form>
+    {% else %}
+    <p><a href="{% url 'events:login' %}?next={{ request.path }}">Войдите</a>, чтобы оставить отзыв.</p>
+    {% endif %}
 
-    <!-- Ссылки для редактирования и удаления (в будущем - если пользователь авторизован, сейчас без авторизации) -->
-    <a href="{% url 'events:edit_event' event.id %}">Редактировать</a> |
+    {% if user.is_authenticated and user.is_staff %}
+    <a href="{% url 'events:edit_event' event.id %}">Редактировать</a>
     <a href="{% url 'events:delete_event' event.id %}">Удалить</a>
+    {% endif %}
 {% endblock %}
