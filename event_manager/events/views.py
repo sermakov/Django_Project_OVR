@@ -18,6 +18,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import EventSerializer
 from rest_framework import generics
+from rest_framework import viewsets
+from .models import Review
+from .serializers import ReviewSerializer, ReviewCreateSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 events = Event.objects.all().order_by('date')
 
@@ -190,3 +194,23 @@ class EventListAPIView(generics.ListCreateAPIView):
 class EventDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    filterset_fields = ['date', 'location']
+    search_fields = ['title', 'description']
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return ReviewCreateSerializer
+        return ReviewSerializer
+    
+    filterset_fields = ['rating', 'event']
+    search_fields = ['name', 'comment']
+    permission_classes = [IsAuthenticatedOrReadOnly]
