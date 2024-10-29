@@ -9,17 +9,12 @@
     <p><strong>Категория:</strong> {{ event.category.name }}</p>
     <p>{{ event.description }}</p>
 
-    <h2>Отзывы</h2>
-    {% if event.reviews.exists %}
-        {% for review in event.reviews.all %}
-            <div>
-                <p><strong>{{ review.user.username }}</strong> - Оценка: {{ review.rating }}/5</p>
-                <p>{{ review.comment }}</p>
-                <p><em>{{ review.created_at|date:"d.m.Y H:i" }}</em></p>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>Нет отзывов о данном мероприятии.</p>
+    {% if event.main_image %}
+        <img src="{{ event.main_image.url }}" alt="{{ event.title }}" style="max-width: 100%; height: auto;">
+    {% endif %}
+
+    {% if event.document %}
+        <p><a href="{{ event.document.url }}">Скачать дополнительную информацию</a></p>
     {% endif %}
 
     <!-- Ссылки для редактирования и удаления (в будущем - если пользователь авторизован, сейчас без авторизации) -->

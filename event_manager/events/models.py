@@ -19,6 +19,9 @@ class Event(models.Model):
     location = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='events')
 
+    main_image = models.ImageField(upload_to='event_images/', blank=True, null=True)
+    document = models.FileField(upload_to='event_documents/', blank=True, null=True)
+
     def __str__(self):
         return self.title
     
