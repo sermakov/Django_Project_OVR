@@ -53,7 +53,7 @@ def about(request):
     return render(request, 'events/about.html', {'team': team_members})
 
 def gallery(request):
-    return render(request, 'events/gallery.html')
+    return render(request, 'events/gallery.html', {'events': events})
 
 def contact_us(request):
     return render(request, 'events/contact_us.html')
