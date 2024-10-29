@@ -4,6 +4,11 @@ from django.contrib.auth import views as auth_views
 from rest_framework import routers
 from .views import EventViewSet, ReviewViewSet
 
+from rest_framework_simplejwt.views import (
+       TokenObtainPairView,
+       TokenRefreshView,
+   )
+
 app_name = 'events'
 
 router = routers.DefaultRouter()
@@ -27,4 +32,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('api/events/', views.api_event_list, name='api_event_list'),
     path('api/events/<int:pk>/', views.api_event_detail, name='api_event_detail'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ] + router.urls

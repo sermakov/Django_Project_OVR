@@ -21,6 +21,7 @@ from rest_framework import generics
 from rest_framework import viewsets
 from .models import Review
 from .serializers import ReviewSerializer, ReviewCreateSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 events = Event.objects.all().order_by('date')
 
@@ -199,6 +200,7 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     filterset_fields = ['date', 'location']
     search_fields = ['title', 'description']
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
@@ -211,3 +213,4 @@ class ReviewViewSet(viewsets.ModelViewSet):
     
     filterset_fields = ['rating', 'event']
     search_fields = ['name', 'comment']
+    permission_classes = [IsAuthenticatedOrReadOnly]
