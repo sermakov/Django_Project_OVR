@@ -17,13 +17,21 @@
         <a href="{% url 'events:gallery' %}">Галерея</a> |
         <a href="{% url 'events:contact_us' %}">Свяжитесь с нами</a> |
         <a href="{% url 'events:about' %}">О нас</a>
+        <!-- templates/base.html -->
+        <nav>
+        <!-- ... other links ... -->
         {% if user.is_authenticated %}
-            Привет, {{ user.username }}!
-            <a href="{% url 'events:logout' %}">Выйти</a>
+        Hello, {{ user.username }}!
+        <form action="{% url 'events:logout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
         {% else %}
-            <a href="{% url 'events:login' %}">Войти</a>
-            <a href="{% url 'events:signup' %}">Регистрация</a>
+        <a href="{% url 'events:login' %}">Login</a>
+        <a href="{% url 'events:signup' %}">Sign Up</a>
         {% endif %}
+</nav>
+
     </nav>
 
     {% if messages %}
