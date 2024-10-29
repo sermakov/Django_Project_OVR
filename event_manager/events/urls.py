@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 app_name = 'events'
 
@@ -15,4 +16,7 @@ urlpatterns = [
     path('gallery/', views.gallery, name='gallery'),
     path('contact_us/', views.contact_us, name='contact_us'),
     path('about/', views.about, name='about'),
+    path('signup/', views.signup, name='signup'),
+    path('login/', auth_views.LoginView.as_view(template_name='events/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
