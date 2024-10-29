@@ -7,20 +7,15 @@ from django.contrib import messages
 from django.views.generic import DeleteView
 from django.urls import reverse_lazy
 
-events = [
-        {'id': 1, 'title': 'Концерт классической музыки', 'date': '12.01.2025 19:00', 'description': 'Концерт с участием известных исполнителей.', 'location': 'Концертный зал', 'organizer': 'Иван Иванов', 'category': 'Музыка', 'comments': [
-            {'user': 'Пользователь1', 'comment': 'Потрясающее мероприятие!', 'created_at': '13.01.2025 10:00'},
-            {'user': 'Пользователь2', 'comment': 'Очень понравилось!', 'created_at': '14.01.2025 12:00'},
-        ]},
-        # Добавьте другие мероприятия, если необходимо
-    ]
+events = Event.objects.all().order_by('date')
 
 def home(request):
     return render(request, 'events/home.html', {'events': events})
 
 def event_list(request):
-    # В будущем здесь будет вывод списка мероприятий
-    return render(request, 'events/event_list.html')
+    events = Event.objects.all().order_by('date')
+    print(f"Количество мероприятий: {events.count()}")
+    return render(request, 'events/event_list.html', {'events': events})
 
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)

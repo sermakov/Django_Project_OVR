@@ -5,12 +5,13 @@
 {% block title %}Список мероприятий{% endblock %}
 
 {% block content %}
-    <h1>Мероприятия</h1>
+    <h1>Список мероприятий</h1>
     <ul>
-        {% for event in page_obj.object_list %}
+        {% for event in events %}
             <li>
                 <a href="{% url 'events:event_detail' event.id %}">{{ event.title }}</a> -
-                {{ event.date|date:"d.m.Y H:i" }}
+                {{ event.date|date:"d.m.Y H:i" }} -
+                {{ event.location }}
             </li>
         {% empty %}
             <li>Нет доступных мероприятий.</li>
