@@ -19,4 +19,6 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(template_name='events/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('api/events/', views.api_event_list, name='api_event_list'),
+    path('api/events/<int:pk>/', views.api_event_detail, name='api_event_detail'),
 ]
