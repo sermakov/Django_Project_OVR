@@ -1,13 +1,69 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Детали мероприятия</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'events/css/styles.css' %}">
-</head>
-<body>
-    <h1>Детали мероприятия</h1>
-    <p>Информация о мероприятии с ID: {{ event_id }}</p>
-    <a href="{% url 'events:event_list' %}">Вернуться к списку мероприятий</a>
-</body>
-</html>
+{% extends 'events/base.html' %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ event.title }}</h1>
+    <p><strong>Дата и время:</strong> {{ event.date|date:"d.m.Y H:i" }}</p>
+    <p><strong>Место:</strong> {{ event.location }}</p>
+    <p><strong>Категория:</strong> {{ event.category.name }}</p>
+    <p>{{ event.description }}</p>
+
+    {% if event.main_image %}
+        <img src="{{ event.main_image.url }}" alt="{{ event.title }}" style="max-width: 100%; height: auto;">
+    {% endif %}
+
+    {% if event.document %}
+        <p><a href="{{ event.document.url }}">Скачать дополнительную информацию</a></p>
+    {% endif %}
+
+    <h2>Отзывы</h2>
+    {% if reviews %}
+        {% for review in reviews %}
+            <div>
+                <p><strong>{{ review.name }}</strong> - Оценка: {{ review.rating }}/5</p>
+                <p>{{ review.comment }}</p>
+                <p><em>{{ review.created_at|date:"d.m.Y H:i" }}</em></p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Нет отзывов о данном мероприятии.</p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <!-- Форма добавления отзыва -->
+    <h2>Оставить отзыв</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ review_form.non_field_errors }}
+        <div>
+            {{ review_form.name.label_tag }}
+            {{ review_form.name }}
+            {{ review_form.name.errors }}
+        </div>
+        <div>
+            {{ review_form.email.label_tag }}
+            {{ review_form.email }}
+            {{ review_form.email.errors }}
+        </div>
+        <div>
+            {{ review_form.rating.label_tag }}
+            {{ review_form.rating }}
+            {{ review_form.rating.errors }}
+        </div>
+        <div>
+            {{ review_form.comment.label_tag }}
+            {{ review_form.comment }}
+            {{ review_form.comment.errors }}
+        </div>
+        <button type="submit">Отправить</button>
+    </form>
+    {% else %}
+    <p><a href="{% url 'events:login' %}?next={{ request.path }}">Войдите</a>, чтобы оставить отзыв.</p>
+    {% endif %}
+
+    {% if user.is_authenticated and user.is_staff %}
+    <a href="{% url 'events:edit_event' event.id %}">Редактировать</a>
+    <a href="{% url 'events:delete_event' event.id %}">Удалить</a>
+    {% endif %}
+{% endblock %}

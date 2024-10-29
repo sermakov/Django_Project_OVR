@@ -1,13 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Список мероприятий</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'events/css/styles.css' %}">
-</head>
-<body>
+<!-- events/templates/events/event_list.html -->
+
+{% extends 'events/base.html' %}
+
+{% block title %}Список мероприятий{% endblock %}
+
+{% block content %}
     <h1>Список мероприятий</h1>
-    <p>Здесь будет отображаться список всех мероприятий.</p>
-    <a href="{% url 'events:home' %}">Вернуться на главную</a>
-</body>
-</html>
+    <ul>
+        {% for event in events %}
+            <li>
+                {% if event.main_image %}
+                    <img src="{{ event.main_image.url }}" alt="{{ event.title }}" style="height: 50px; width: auto;">
+                {% endif %}
+                <a href="{% url 'events:event_detail' event.id %}">{{ event.title }}</a> -
+                {{ event.date|date:"d.m.Y H:i" }} -
+                {{ event.location }}
+            </li>
+        {% empty %}
+            <li>Нет доступных мероприятий.</li>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated and user.is_staff %}
+    <a href="{% url 'events:add_event' %}">Добавить мероприятие</a>
+    {% endif %}
+
+    <!-- Пагинация -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Первая</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+            {% endif %}
+
+            <span class="current">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Вперед</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

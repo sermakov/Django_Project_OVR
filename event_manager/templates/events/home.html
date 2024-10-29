@@ -1,14 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Главная страница</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'events/css/styles.css' %}">
-</head>
-<body>
+<!-- events/templates/events/home.html -->
+
+{% extends 'events/base.html' %}
+
+{% block title %}Домашняя страница{% endblock %}
+
+{% block content %}
     <h1>Добро пожаловать на сайт мероприятий!</h1>
-    <nav>
-        <a href="{% url 'events:event_list' %}">Список мероприятий</a>
-    </nav>
-</body>
-</html>
+    <p>Здесь вы найдете информацию о наших последних событиях.</p>
+
+    <h2>Предстоящие мероприятия</h2>
+    <ul>
+        {% for event in events %}
+            <li>
+                <a href="{% url 'events:event_detail' event.id %}">{{ event.title }}</a> - {{ event.date }}
+            </li>
+        {% empty %}
+            <li>Нет предстоящих мероприятий.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

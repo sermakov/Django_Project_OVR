@@ -1,0 +1,14 @@
+<!-- events/templates/events/services.html -->
+
+{% extends 'events/base.html' %}
+
+{% block title %}Услуги{% endblock %}
+
+{% block content %}
+    <h1>Наши услуги</h1>
+    <ul>
+        {% for service in services %}
+            <li>{{ service }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

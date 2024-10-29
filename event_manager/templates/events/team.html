@@ -1,0 +1,14 @@
+<!-- events/templates/events/team.html -->
+
+{% extends 'events/base.html' %}
+
+{% block title %}Команда{% endblock %}
+
+{% block content %}
+    <h1>Наша команда</h1>
+    <ul>
+        {% for member in team %}
+            <li>{{ member.name }} - {{ member.position }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
