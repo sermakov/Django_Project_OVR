@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import MaxLengthValidator
 
 # Create your models here.
 
@@ -38,7 +39,7 @@ class Review(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     rating = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)])
-    comment = models.TextField()
+    comment = models.TextField(validators=[MaxLengthValidator(500)])
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -23,8 +23,7 @@ def event_detail(request, event_id):
     reviews = event.reviews.all().order_by('-created_at')
 
     if request.method == 'POST':
-        print('Форма была отправлена')
-        review_form = ReviewForm(request.POST)
+        review_form = ReviewForm(request.POST, event=event)
         if review_form.is_valid():
             review = review_form.save(commit=False)
             review.event = event
@@ -34,7 +33,7 @@ def event_detail(request, event_id):
         else:
             messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
     else:
-        review_form = ReviewForm()
+        review_form = ReviewForm(event=event)
 
     return render(request, 'events/event_detail.html', {
         'event': event,
