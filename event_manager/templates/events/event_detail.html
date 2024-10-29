@@ -22,9 +22,7 @@
         <p>Нет отзывов о данном мероприятии.</p>
     {% endif %}
 
-    <!-- Ссылки для редактирования и удаления (если пользователь авторизован) -->
-    {% if user.is_authenticated %}
-        <a href="{% url 'events:edit_event' event.id %}">Редактировать</a> |
-        <a href="{% url 'events:delete_event' event.id %}">Удалить</a>
-    {% endif %}
+    <!-- Ссылки для редактирования и удаления (в будущем - если пользователь авторизован, сейчас без авторизации) -->
+    <a href="{% url 'events:edit_event' event.id %}">Редактировать</a> |
+    <a href="{% url 'events:delete_event' event.id %}">Удалить</a>
 {% endblock %}

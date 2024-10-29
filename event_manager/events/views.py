@@ -97,6 +97,6 @@ class EventDeleteView(DeleteView):
     success_url = reverse_lazy('events:event_list')
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('login')
+        #if not request.user.is_authenticated:
+        #    return redirect('login')
         return super().dispatch(request, *args, **kwargs)
