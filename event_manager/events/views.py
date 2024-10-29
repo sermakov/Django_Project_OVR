@@ -10,8 +10,13 @@ from .forms import ReviewForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth import login
 from .forms import SignUpForm
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 events = Event.objects.all().order_by('date')
+
+def is_admin(user):
+    return user.is_authenticated and user.is_staff
 
 def home(request):
     return render(request, 'events/home.html', {'events': events})
@@ -83,7 +88,7 @@ def contact_us(request):
 class GalleryView(TemplateView):
     template_name = 'events/gallery.html'
 
-#@login_required
+@user_passes_test(is_admin)
 def add_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
@@ -95,7 +100,7 @@ def add_event(request):
         form = EventForm()
     return render(request, 'events/add_event.html', {'form': form})
 
-#@login_required
+@user_passes_test(is_admin)
 def edit_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     if request.method == 'POST':
@@ -108,15 +113,14 @@ def edit_event(request, event_id):
         form = EventForm(instance=event)
     return render(request, 'events/edit_event.html', {'form': form, 'event': event})
 
-class EventDeleteView(DeleteView):
+class EventDeleteView(UserPassesTestMixin, DeleteView):
     model = Event
     template_name = 'events/delete_event.html'
     success_url = reverse_lazy('events:event_list')
-
-    def dispatch(self, request, *args, **kwargs):
-        #if not request.user.is_authenticated:
-        #    return redirect('login')
-        return super().dispatch(request, *args, **kwargs)
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_staff
+    def handle_no_permission(self):
+        return redirect('events:login')
 
 def signup(request):
     if request.method == 'POST':
