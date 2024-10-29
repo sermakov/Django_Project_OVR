@@ -8,6 +8,8 @@ from django.views.generic import DeleteView
 from django.urls import reverse_lazy
 from .forms import ReviewForm
 from django.core.exceptions import ValidationError
+from django.contrib.auth import login
+from .forms import SignUpForm
 
 events = Event.objects.all().order_by('date')
 
@@ -115,3 +117,17 @@ class EventDeleteView(DeleteView):
         #if not request.user.is_authenticated:
         #    return redirect('login')
         return super().dispatch(request, *args, **kwargs)
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Регистрация прошла успешно!')
+            return redirect('events:home')  # Замените на вашу главную страницу
+        else:
+            messages.error(request, 'Пожалуйста, исправьте ошибки ниже.')
+    else:
+        form = SignUpForm()
+    return render(request, 'events/signup.html', {'form': form})
