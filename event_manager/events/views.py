@@ -19,8 +19,9 @@ def home(request):
     return render(request, 'events/home.html', {'events': events})
 
 def event_list(request):
-    # В будущем здесь будет вывод списка мероприятий
-    return render(request, 'events/event_list.html')
+    events = Event.objects.all().order_by('date')
+    print(f"Количество мероприятий: {events.count()}")
+    return render(request, 'events/event_list.html', {'events': events})
 
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
