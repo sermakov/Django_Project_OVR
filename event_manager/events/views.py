@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.views.generic import DeleteView
 from django.urls import reverse_lazy
 from .forms import ReviewForm
+from django.core.exceptions import ValidationError
 
 events = Event.objects.all().order_by('date')
 
@@ -24,14 +25,17 @@ def event_detail(request, event_id):
 
     if request.method == 'POST':
         review_form = ReviewForm(request.POST, event=event)
-        if review_form.is_valid():
-            review = review_form.save(commit=False)
-            review.event = event
-            review.save()
-            messages.success(request, 'Ваш отзыв успешно добавлен.')
-            return redirect('events:event_detail', event_id=event.id)
-        else:
-            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
+        try:
+            if review_form.is_valid():
+                review = review_form.save(commit=False)
+                review.event = event
+                review.save()
+                messages.success(request, 'Ваш отзыв успешно добавлен.')
+                return redirect('events:event_detail', event_id=event.id)
+            else:
+                messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
+        except ValidationError as e:
+            review_form.add_error(None, e)
     else:
         review_form = ReviewForm(event=event)
 
