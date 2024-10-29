@@ -1,8 +1,14 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
+from rest_framework import routers
+from .views import EventViewSet, ReviewViewSet
 
 app_name = 'events'
+
+router = routers.DefaultRouter()
+router.register(r'api/events', EventViewSet)
+router.register(r'api/reviews', ReviewViewSet)
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -21,4 +27,4 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('api/events/', views.api_event_list, name='api_event_list'),
     path('api/events/<int:pk>/', views.api_event_detail, name='api_event_detail'),
-]
+] + router.urls

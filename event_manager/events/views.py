@@ -195,14 +195,19 @@ class EventDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EventSerializer
 
 class EventViewSet(viewsets.ModelViewSet):
-       queryset = Event.objects.all()
-       serializer_class = EventSerializer
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    filterset_fields = ['date', 'location']
+    search_fields = ['title', 'description']
 
 class ReviewViewSet(viewsets.ModelViewSet):
-       queryset = Review.objects.all()
-       serializer_class = ReviewSerializer
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
 
-       def get_serializer_class(self):
-           if self.action in ['create', 'update', 'partial_update']:
-               return ReviewCreateSerializer
-           return ReviewSerializer
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return ReviewCreateSerializer
+        return ReviewSerializer
+    
+    filterset_fields = ['rating', 'event']
+    search_fields = ['name', 'comment']
