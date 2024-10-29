@@ -41,6 +41,7 @@ class Review(models.Model):
     rating = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)])
     comment = models.TextField(validators=[MaxLengthValidator(500)])
     created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f'Review by {self.name} for {self.event.title}'
