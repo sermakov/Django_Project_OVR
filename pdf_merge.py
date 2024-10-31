@@ -39,7 +39,7 @@ def merge_pdfs_in_directory(directory, output_filename='Сборник прак�
 def main():
     parser = argparse.ArgumentParser(description="Объединение всех PDF-файлов в указанной директории в один PDF-файл.")
     parser.add_argument('directory', help='Путь к директории с PDF-файлами.')
-    parser.add_argument('-o', '--output', default='merged.pdf', help='Имя итогового PDF-файла (по умолчанию: merged.pdf).')
+    parser.add_argument('-o', '--output', default='Сборник практических заданий по Django (ОВР)', help='Имя итогового PDF-файла (по умолчанию: merged.pdf).')
     
     args = parser.parse_args()
     
