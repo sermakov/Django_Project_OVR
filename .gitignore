@@ -29,3 +29,8 @@ local_settings.py
 
 # Obsidian (если необходимо)
 **/.obsidian
+
+.senv/
+**/.senv/
+senv/
+**/senv/
